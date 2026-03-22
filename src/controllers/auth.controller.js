@@ -22,7 +22,7 @@ async function registerUser(req, res) {
         password: hashedPassword
     });
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
     res.cookie('token', token)
 
@@ -52,7 +52,7 @@ async function loginUser(req, res) {
         return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
     res.cookie('token', token)
 
