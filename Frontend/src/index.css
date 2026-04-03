@@ -1,0 +1,51 @@
+@import "./styles/theme/tokens.css";
+@import "./styles/theme/light.css";
+@import "./styles/theme/dark.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background:
+    radial-gradient(circle at top left, var(--bg-glow-start), transparent 28%),
+    radial-gradient(circle at bottom right, var(--bg-glow-end), transparent 32%),
+    var(--bg-canvas);
+  transition: background-color var(--transition-slow), color var(--transition-base);
+}
+
+body::selection {
+  background: var(--accent-soft);
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
