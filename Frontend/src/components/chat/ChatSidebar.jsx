@@ -2,7 +2,15 @@ import React from 'react';
 import './ChatSidebar.css';
 
 
-const ChatSidebar = ({ chats, activeChatId, onSelectChat, onNewChat, open }) => {
+const ChatSidebar = ({
+  chats,
+  activeChatId,
+  onSelectChat,
+  onNewChat,
+  onLogout,
+  onRegister,
+  open
+}) => {
 
 
   
@@ -24,6 +32,14 @@ const ChatSidebar = ({ chats, activeChatId, onSelectChat, onNewChat, open }) => 
         ))}
         {chats.length === 0 && <p className="empty-hint">No chats yet.</p>}
       </nav>
+      <div className="sidebar-auth-actions">
+        <button className="sidebar-auth-btn sidebar-auth-btn-secondary" onClick={onRegister}>
+          Register
+        </button>
+        <button className="sidebar-auth-btn" onClick={onLogout}>
+          Logout
+        </button>
+      </div>
     </aside>
   );
 };

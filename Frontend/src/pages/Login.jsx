@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link,useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { api, setAuthToken } from '../lib/api.js';
 
 
@@ -7,6 +7,8 @@ const Login = () => {
     const [ form, setForm ] = useState({ email: '', password: '' });
     const [ submitting, setSubmitting ] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
+    const redirectPath = location.state?.from || '/';
     
 
     function handleChange(e) {
@@ -23,7 +25,7 @@ const Login = () => {
                 password: form.password
             });
             setAuthToken(response.data.token);
-            navigate("/");
+            navigate(redirectPath, { replace: true });
         } catch (err) {
             console.error(err);
         } finally {

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { io } from "socket.io-client";
+import { useNavigate } from 'react-router-dom';
 import ChatMobileBar from '../components/chat/ChatMobileBar.jsx';
 import ChatSidebar from '../components/chat/ChatSidebar.jsx';
 import ChatMessages from '../components/chat/ChatMessages.jsx';
@@ -14,10 +15,11 @@ import {
     sendingFinished,
     setChats
 } from '../store/chatSlice.js';
-import { api, getAuthToken, normalizeChat, SOCKET_URL } from '../lib/api.js';
+import { api, getAuthToken, normalizeChat, setAuthToken, SOCKET_URL } from '../lib/api.js';
 
 const Home = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const chats = useSelector(state => state.chat.chats);
     const activeChatId = useSelector(state => state.chat.activeChatId);
     const input = useSelector(state => state.chat.input);
@@ -143,6 +145,26 @@ const Home = () => {
         });
     };
 
+    const clearSessionState = () => {
+        socketRef.current?.disconnect();
+        setAuthToken(null);
+        setMessages([]);
+        dispatch(setChats([]));
+        dispatch(selectChat(null));
+        dispatch(setInput(''));
+        setSidebarOpen(false);
+    };
+
+    const handleLogout = () => {
+        clearSessionState();
+        navigate('/login', { replace: true });
+    };
+
+    const handleRegisterRedirect = () => {
+        clearSessionState();
+        navigate('/register', { replace: true });
+    };
+
     return (
         <div className="chat-layout minimal">
             <ChatMobileBar
@@ -158,12 +180,14 @@ const Home = () => {
                     getMessages(id);
                 }}
                 onNewChat={handleNewChat}
+                onLogout={handleLogout}
+                onRegister={handleRegisterRedirect}
                 open={sidebarOpen}
             />
             <main className="chat-main" role="main">
                 {messages.length === 0 && (
                     <div className="chat-welcome" aria-hidden="true">
-                        <div className="chip">Early Preview</div>
+                        <div className="chip text-2xl ">Click on New to Create a Chat</div>
                         <h1>ChatGPT Clone</h1>
                         <p>Ask anything. Paste text, brainstorm ideas, or get quick explanations. Your chats stay in the sidebar so you can pick up where you left off.</p>
                     </div>

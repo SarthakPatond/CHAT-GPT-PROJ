@@ -3,7 +3,7 @@ import axios from 'axios';
 const AUTH_STORAGE_KEY = 'chat_token';
 
 export const API_BASE_URL =
-  import.meta.env.VITE_API_URL?.replace(/\/$/, '') || 'http://localhost:3000';
+  import.meta.env.VITE_API_URL?.replace(/\/$/, '') || 'https://chat-gpt-proj.onrender.com';
 
 export const api = axios.create({
   baseURL: `${API_BASE_URL}/api`,
